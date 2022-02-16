@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import MainPage from "./components/MainPage";
+import axios from "axios";
+import "./App.css";
 
 function App() {
+  const [data, setData] = useState([]);
+
+  const getData = () => {
+    axios
+      .get("https://run.mocky.io/v3/128675fd-afe3-43fd-9b9a-cf7a0ee511ef")
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <MainPage data={data} />
     </div>
   );
 }
